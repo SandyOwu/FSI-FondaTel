@@ -6,8 +6,7 @@ public class FCajero extends javax.swing.JFrame {
 
     Conexion cnx = new Conexion();
     String todo = "SELECT * FROM tickets";
-    String meseros = "SELECT DISTINCT empleados_codigo_mesero FROM tickets";
-    String por_meseros = "SELECT * FROM tickets WHERE empleados_codigo_mesero = '%s' ORDER BY nombree";
+    
     
     
     public FCajero() {
@@ -19,7 +18,6 @@ public class FCajero extends javax.swing.JFrame {
         
         if (cnx.conectar("localhost", "fondatel", "root", "") == 1) {
             cnx.entablar(todo, TCajero);
-            cnx.seleccionar(meseros, CBMeseros);
         } else{
             JOptionPane.showMessageDialog(this, "Sin conexión. La ventana se cerrará...");
             System.exit(0);
@@ -39,7 +37,6 @@ public class FCajero extends javax.swing.JFrame {
         BRecientes = new javax.swing.JButton();
         BTotalMesas = new javax.swing.JButton();
         BTotalCliente = new javax.swing.JButton();
-        CBMeseros = new javax.swing.JComboBox<>();
         LTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -108,14 +105,6 @@ public class FCajero extends javax.swing.JFrame {
         });
         jToolBar1.add(BTotalCliente);
 
-        CBMeseros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        CBMeseros.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CBMeserosActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(CBMeseros);
-
         LTotal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         LTotal.setText("$");
 
@@ -159,18 +148,6 @@ public class FCajero extends javax.swing.JFrame {
         String total_mesas = "SELECT mesas_numero, SUM(precio) AS total FROM tickets GROUP BY mesas_numero";
         cnx.entablar(total_mesas, TCajero);
     }//GEN-LAST:event_BTotalMesasActionPerformed
-
-    private void CBMeserosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBMeserosActionPerformed
-        String cat = CBMeseros.getSelectedItem().toString();
-        
-        if (cat.equals("Todos")) {
-            cnx.entablar(todo, TCajero);
-        } else {
-            String sql = String.format(por_meseros, cat);
-            cnx.entablar(sql, TCajero);
-        }
-        
-    }//GEN-LAST:event_CBMeserosActionPerformed
 
     private void BTotalClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTotalClienteActionPerformed
         String total_cliente = "SELECT clientes_codigoc, nombrec, SUM(precio) AS total FROM tickets GROUP BY clientes_codigoc, nombrec";
@@ -222,7 +199,6 @@ public class FCajero extends javax.swing.JFrame {
     private javax.swing.JButton BTotal;
     private javax.swing.JButton BTotalCliente;
     private javax.swing.JButton BTotalMesas;
-    private javax.swing.JComboBox<String> CBMeseros;
     private javax.swing.JLabel LTotal;
     private javax.swing.JTable TCajero;
     private javax.swing.JScrollPane jScrollPane1;

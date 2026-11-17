@@ -30,6 +30,7 @@ public class FCocinero extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TCocinero = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
         BEstado = new javax.swing.JButton();
         BObservaciones = new javax.swing.JButton();
 
@@ -51,6 +52,17 @@ public class FCocinero extends javax.swing.JFrame {
         jScrollPane1.setViewportView(TCocinero);
 
         jToolBar1.setRollover(true);
+
+        jButton1.setText("TODOS");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton1);
 
         BEstado.setText("CAMBIAR ESTADO");
         BEstado.addActionListener(new java.awt.event.ActionListener() {
@@ -128,6 +140,10 @@ public class FCocinero extends javax.swing.JFrame {
         cnx.entablar(observaciones, TCocinero);
     }//GEN-LAST:event_BObservacionesActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cnx.entablar(todo, TCocinero);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -167,6 +183,7 @@ public class FCocinero extends javax.swing.JFrame {
     private javax.swing.JButton BEstado;
     private javax.swing.JButton BObservaciones;
     private javax.swing.JTable TCocinero;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
