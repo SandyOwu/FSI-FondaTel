@@ -1,28 +1,26 @@
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-
 
 public class FCajero extends javax.swing.JFrame {
 
     Conexion cnx = new Conexion();
+    ImageIcon icono = new ImageIcon(getClass().getResource("img/espaguetis.png"));
     String todo = "SELECT * FROM tickets";
-    
-    
-    
+
     public FCajero() {
         initComponents();
         setLocationRelativeTo(this);
+        setIconImage(icono.getImage());
         setTitle("Tickets de FondaTel");
-        
-        
-        
+
         if (cnx.conectar("localhost", "fondatel", "root", "") == 1) {
             cnx.entablar(todo, TCajero);
-        } else{
+        } else {
             JOptionPane.showMessageDialog(this, "Sin conexión. La ventana se cerrará...");
             System.exit(0);
-        }   
-        
+        }
+
     }
 
     @SuppressWarnings("unchecked")

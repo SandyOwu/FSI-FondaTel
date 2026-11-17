@@ -1,4 +1,5 @@
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
@@ -7,13 +8,15 @@ public class FAcceso extends javax.swing.JFrame {
     Conexion cnx = new Conexion();
     
     String puesto = "SELECT puesto FROM empleados WHERE nom_usr = '%s' AND nip = '%s'";
-    
+    ImageIcon icono = new ImageIcon(getClass().getResource("img/espaguetis.png"));
     int intentos = 0;
     
     
     public FAcceso() {
         initComponents();
-        
+        setIconImage(icono.getImage());
+        setTitle("Acceso de FondaTel");
+        setLocationRelativeTo(this);
         if (cnx.conectar("localhost", "fondatel", "root", "") == 0) {
             JOptionPane.showMessageDialog(this, "Sin conexión. La ventana se cerrará...");
             System.exit(0);
@@ -31,6 +34,7 @@ public class FAcceso extends javax.swing.JFrame {
         BAceptar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        BMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,31 +54,40 @@ public class FAcceso extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel3.setText("ACCESO");
 
+        BMenu.setText("MENÚ");
+        BMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BMenuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(BAceptar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(TUsuario)
-                                    .addComponent(TPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(79, 79, 79)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(BMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(180, 180, 180)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(84, 84, 84)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(BAceptar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(TUsuario)
+                                        .addComponent(TPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(79, 79, 79)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(107, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -94,7 +107,9 @@ public class FAcceso extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BAceptar)
                     .addComponent(jButton2))
-                .addGap(60, 60, 60))
+                .addGap(18, 18, 18)
+                .addComponent(BMenu)
+                .addGap(17, 17, 17))
         );
 
         pack();
@@ -107,30 +122,32 @@ public class FAcceso extends javax.swing.JFrame {
         String tipo = cnx.obtenerDato(sql);
         
         switch (tipo) {
-//            case "Cocinero":
-//                FCocineros fa = new FCocinero();
-//                cnx.desconectar();
-//                this.dispose();
-//                fa.setVisible(true);
-//            break;
-//            case "Cajero":
-//                FCajero fr = new FCajero();
-//                cnx.desconectar();
-//                this.dispose();
-//                fr.setVisible(true);
-//            break;
-            case "Gerente":
-                FAlimentos fr = new FAlimentos();
+            case "Cocinero":
+                FCocinero co = new FCocinero();
                 cnx.desconectar();
                 this.dispose();
-                fr.setVisible(true);
+                co.setVisible(true);
             break;
-//            case "Mesero":
-//                FMeseros fr = new FMeseros();
-//                cnx.desconectar();
-//                this.dispose();
-//                fr.setVisible(true);
-//            break;
+            case "Cajero":
+                FCajero fc = new FCajero();
+                cnx.desconectar();
+                this.dispose();
+                fc.setVisible(true);
+            break;
+            
+            case "Mesero":
+                FMeseros ms = new FMeseros();
+                cnx.desconectar();
+                this.dispose();
+                ms.setVisible(true);
+            break;
+            case "Gerente":
+                FAlimentos ge = new FAlimentos();
+                cnx.desconectar();
+                this.dispose();
+                ge.setVisible(true);
+            break;
+            
             case "":    
                 JOptionPane.showMessageDialog(this, "Credenciales incorrectas");
                 intentos ++;
@@ -141,6 +158,13 @@ public class FAcceso extends javax.swing.JFrame {
             break;
         }
     }//GEN-LAST:event_BAceptarActionPerformed
+
+    private void BMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BMenuActionPerformed
+        FMenu menu = new FMenu();
+                cnx.desconectar();
+                this.dispose();
+                menu.setVisible(true);
+    }//GEN-LAST:event_BMenuActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -176,6 +200,7 @@ public class FAcceso extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BAceptar;
+    private javax.swing.JButton BMenu;
     private javax.swing.JTextField TPassword;
     private javax.swing.JTextField TUsuario;
     private javax.swing.JButton jButton2;

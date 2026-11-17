@@ -1,9 +1,11 @@
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class FMeseros extends javax.swing.JFrame {
 
     Conexion cnx = new Conexion();
+    ImageIcon icono = new ImageIcon(getClass().getResource("img/espaguetis.png"));
     String todo = "SELECT * FROM pedidos";
     String meseros = "SELECT DISTINCT empleados_codigo_mesero FROM pedidos";
     String por_meseros = "SELECT * FROM pedidos WHERE empleados_codigo_mesero = '%s' ORDER BY nombree";
@@ -12,7 +14,10 @@ public class FMeseros extends javax.swing.JFrame {
 
     public FMeseros() {
         initComponents();
-
+        setLocationRelativeTo(this);
+        setIconImage(icono.getImage());
+        setTitle("Pedidos de FondaTel");
+        
         if (cnx.conectar("localhost", "fondatel", "root", "") == 1) {
             cnx.entablar(todo, TMeseros);
             cnx.seleccionar(meseros, CBMeseros);

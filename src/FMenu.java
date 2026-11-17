@@ -1,31 +1,32 @@
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-
 
 public class FMenu extends javax.swing.JFrame {
 
-    
     Conexion cnx = new Conexion();
+    ImageIcon icono = new ImageIcon(getClass().getResource("img/espaguetis.png"));
+
     String todo = "SELECT * FROM menu";
     String categorias = "SELECT DISTINCT categoria FROM menu";
     String por_categoria = "SELECT * FROM menu WHERE categoria = '%s' ORDER BY nombre";
-    
-    
+
     public FMenu() {
         initComponents();
         setLocationRelativeTo(this);
+        setIconImage(icono.getImage());
         setTitle("Menú de FondaTel");
         TMenu.setRowHeight(100);
-        
+
         if (cnx.conectar("localhost", "fondatel", "root", "") == 1) {
             cnx.entablar(todo, TMenu);
             cnx.seleccionar(categorias, CBCategoria);
-        } else{
+        } else {
             JOptionPane.showMessageDialog(this, "Sin conexión. La ventana se cerrará...");
             System.exit(0);
-        }   
+        }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -82,10 +83,10 @@ public class FMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -93,8 +94,8 @@ public class FMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 13, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -102,14 +103,14 @@ public class FMenu extends javax.swing.JFrame {
 
     private void CBCategoriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBCategoriaItemStateChanged
         String cat = CBCategoria.getSelectedItem().toString();
-        
+
         if (cat.equals("Todos")) {
             cnx.entablar(todo, TMenu);
         } else {
             String sql = String.format(por_categoria, cat);
             cnx.entablar(sql, TMenu);
         }
-        
+
     }//GEN-LAST:event_CBCategoriaItemStateChanged
 
     private void BCompletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCompletoActionPerformed

@@ -1,18 +1,20 @@
 
 import java.sql.PreparedStatement;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
 public class FCocinero extends javax.swing.JFrame {
     
     Conexion cnx = new Conexion();
+    ImageIcon icono = new ImageIcon(getClass().getResource("img/espaguetis.png"));
     String todo = "SELECT * FROM comandas";
     
     public FCocinero() {
         initComponents();    
         setLocationRelativeTo(this);
+        setIconImage(icono.getImage());
         setTitle("órdenes de FondaTel");
-        
         
         if (cnx.conectar("localhost", "fondatel", "root", "") == 1) {
             cnx.entablar(todo, TCocinero);
@@ -125,7 +127,7 @@ public class FCocinero extends javax.swing.JFrame {
         ps.setString(1, id);
         ps.executeUpdate();
         
-        TCocinero.setValueAt("Preparando", fila, 2);
+        TCocinero.setValueAt("Preparando", fila, 3);
         
         JOptionPane.showMessageDialog(null, "Estado actualizado a Preparado.");
         
