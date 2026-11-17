@@ -34,9 +34,11 @@ public class FCajero extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TCajero = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
+        BTodos = new javax.swing.JButton();
         BTotal = new javax.swing.JButton();
         BRecientes = new javax.swing.JButton();
-        BMayor = new javax.swing.JButton();
+        BTotalMesas = new javax.swing.JButton();
+        BTotalCliente = new javax.swing.JButton();
         CBMeseros = new javax.swing.JComboBox<>();
         LTotal = new javax.swing.JLabel();
 
@@ -53,6 +55,17 @@ public class FCajero extends javax.swing.JFrame {
         jScrollPane1.setViewportView(TCajero);
 
         jToolBar1.setRollover(true);
+
+        BTodos.setText("TODOS LOS PEDIDOS");
+        BTodos.setFocusable(false);
+        BTodos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BTodos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTodosActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BTodos);
 
         BTotal.setText("TOTAL DE VENTAS");
         BTotal.addActionListener(new java.awt.event.ActionListener() {
@@ -73,16 +86,27 @@ public class FCajero extends javax.swing.JFrame {
         });
         jToolBar1.add(BRecientes);
 
-        BMayor.setText("MAYOR PRECIO");
-        BMayor.setFocusable(false);
-        BMayor.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BMayor.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        BMayor.addActionListener(new java.awt.event.ActionListener() {
+        BTotalMesas.setText("TOTAL POR MESA");
+        BTotalMesas.setFocusable(false);
+        BTotalMesas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BTotalMesas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BTotalMesas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BMayorActionPerformed(evt);
+                BTotalMesasActionPerformed(evt);
             }
         });
-        jToolBar1.add(BMayor);
+        jToolBar1.add(BTotalMesas);
+
+        BTotalCliente.setText("TOTAL POR CLIENTE");
+        BTotalCliente.setFocusable(false);
+        BTotalCliente.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BTotalCliente.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BTotalCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTotalClienteActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BTotalCliente);
 
         CBMeseros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         CBMeseros.addActionListener(new java.awt.event.ActionListener() {
@@ -102,21 +126,18 @@ public class FCajero extends javax.swing.JFrame {
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(34, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(LTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(LTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
-                .addGap(70, 70, 70)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(LTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -125,8 +146,8 @@ public class FCajero extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTotalActionPerformed
-        String total = "SELECT SUM(precio) AS total FROM tickets";
-        LTotal.setText(total);
+        String total = cnx.obtenerDato("SELECT SUM(precio) AS total FROM tickets");
+        LTotal.setText("$" + total);
     }//GEN-LAST:event_BTotalActionPerformed
 
     private void BRecientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BRecientesActionPerformed
@@ -134,10 +155,10 @@ public class FCajero extends javax.swing.JFrame {
         cnx.entablar(recientes, TCajero);
     }//GEN-LAST:event_BRecientesActionPerformed
 
-    private void BMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BMayorActionPerformed
-        String mayor = "SELECT * FROM tickets ORDER BY precio DESC";
-        cnx.entablar(mayor, TCajero);
-    }//GEN-LAST:event_BMayorActionPerformed
+    private void BTotalMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTotalMesasActionPerformed
+        String total_mesas = "SELECT mesas_numero, SUM(precio) AS total FROM tickets GROUP BY mesas_numero";
+        cnx.entablar(total_mesas, TCajero);
+    }//GEN-LAST:event_BTotalMesasActionPerformed
 
     private void CBMeserosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBMeserosActionPerformed
         String cat = CBMeseros.getSelectedItem().toString();
@@ -150,6 +171,15 @@ public class FCajero extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_CBMeserosActionPerformed
+
+    private void BTotalClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTotalClienteActionPerformed
+        String total_cliente = "SELECT clientes_codigoc, nombrec, SUM(precio) AS total FROM tickets GROUP BY clientes_codigoc, nombrec";
+        cnx.entablar(total_cliente, TCajero);
+    }//GEN-LAST:event_BTotalClienteActionPerformed
+
+    private void BTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTodosActionPerformed
+        cnx.entablar(todo, TCajero);
+    }//GEN-LAST:event_BTodosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,9 +217,11 @@ public class FCajero extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BMayor;
     private javax.swing.JButton BRecientes;
+    private javax.swing.JButton BTodos;
     private javax.swing.JButton BTotal;
+    private javax.swing.JButton BTotalCliente;
+    private javax.swing.JButton BTotalMesas;
     private javax.swing.JComboBox<String> CBMeseros;
     private javax.swing.JLabel LTotal;
     private javax.swing.JTable TCajero;
