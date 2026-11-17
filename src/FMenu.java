@@ -10,6 +10,7 @@ public class FMenu extends javax.swing.JFrame {
     String categorias = "SELECT DISTINCT categoria FROM menu";
     String por_categoria = "SELECT * FROM menu WHERE categoria = '%s' ORDER BY nombre";
     
+    
     public FMenu() {
         initComponents();
         setLocationRelativeTo(this);
